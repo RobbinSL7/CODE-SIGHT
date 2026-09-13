@@ -106,7 +106,7 @@ class SCAnalyzer:
         print("--------------\n")
       
         # Baseline
-        print("Total Lines: " ,self.LINE_Count)
+        print("Total Lines: ",self.LINE_Count)
         print("INFO: " ,self.INFO_Count)
         print("WARN: " ,self.WARN_Count)
         print("ERROR: " ,self.ERROR_Count)
@@ -164,6 +164,6 @@ def main():
            
 
 if __name__ == "__main__":
-   main()
+    main()
 
 
