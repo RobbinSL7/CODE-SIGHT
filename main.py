@@ -5,9 +5,6 @@ class SCAnalyzer:
     def __init__(self, fileName):
         # Baseline
         self.LINE_Count = 0
-        self.INFO_Count = 0
-        self.WARN_Count = 0
-        self.ERROR_Count = 0
         self.reviewLines = []
         self.fileName = fileName
 
@@ -48,57 +45,57 @@ class SCAnalyzer:
 
             for line in file:
                 clean = line.strip()
+                tokens = clean.split()
                 self.LINE_Count += 1
-                if "INFO" in clean:
-                    self.INFO_Count += 1
-                if "WARN" in clean:
-                    self.WARN_Count += 1
-                if "ERROR" in clean:
-                    self.ERROR_Count += 1
-                if clean.startswith("def ") and clean.endswith(":"):
+
+                if not tokens:
+                    continue
+
+                self.LINE_Count += 1
+                if tokens[0] == "def":
                     self.DEF_Count += 1
-                if clean.startswith("class ") and clean.endswith(":"):
+                if tokens[0] == "class":
                     self.CLASS_Count += 1
-                if "import" in clean:
+                if tokens[0] == "import":
                     self.IMPORT_Count += 1
-                if clean.startswith("except: ") and clean.endswith(":"):
+                if tokens[0] == "except":
                     self.EXCEPT_Count += 1
-                if "try:" in clean:
+                if tokens[0] == "try":
                     self.TRY_Count += 1
-                if clean.startswith("#") and clean.endswith("#"):
+                if tokens[0] == "#":
                     self.COMMENT_Count += 1
-                if clean.startswith("for ") and clean.endswith(":"):
+                if tokens[0] == "for":
                     self.F_LOOP_Count += 1
-                if clean.startswith("while: ") and clean.endswith(":"):
+                if tokens[0] == "while":
                     self.W_LOOP_Count += 1
-                if clean.startswith("print(") or clean.startswith("print ("):
-                    self.PRINT_Count += 1 
-                if clean.startswith("if ") and clean.endswith(":"):
+                if tokens[0] == "print":
+                    self.PRINT_Count += 1
+                if tokens[0] == "if":
                     self.IF_Count += 1
-                if clean.startswith("else ") and clean.endswith(":"):
+                if tokens[0] == "else":
                     self.ELSE_Count += 1
-                if clean.startswith("elif ") and clean.endswith(":"):
+                if tokens[0] == "elif":
                     self.ELIF_Count += 1
-                if "RETURN" in clean:
+                if tokens[0] == "return":
                     self.RETURN_Count += 1
-                if clean.startswith("break ") and clean.endswith(" "):
+                if tokens[0] == "break":
                     self.BREAK_Count += 1
-                if clean.startswith("continue ") and clean.endswith(" "):
+                if tokens[0] == "continue":
                     self.CONTINUE_Count += 1
-                if "+=" in clean:
+                if "+=" in tokens:
                     self.INCREM_Count += 1
-                if clean.startswith("raise ") and clean.endswith(" "):
+                if tokens[0] == "raise":
                     self.RAISE_Count += 1
-                if clean.startswith("global") and clean.endswith(" "):
+                if tokens[0] == "global":
                     self.GLOBAL_Count += 1
-                if clean.startswith("pass ") and clean.endswith(" "):
+                if tokens[0] == "pass":
                     self.PASS_Count += 1
-                if clean.startswith("assert") and clean.endswith(" ") or clean.endswith('"'):
+                if tokens[0] == "assert":
                     self.ASSERT_Count += 1
                 
-                if self.ERROR_Count > 5:
-                    print("WARNING: Too many errors in the log")
-                    break
+                # if self.ERROR_Count > 5:
+                   # print("WARNING: Too many errors in the log")
+                   # break
 
 
     def print_summary(self):
@@ -107,9 +104,6 @@ class SCAnalyzer:
       
         # Baseline
         print("Total Lines: ",self.LINE_Count)
-        print("INFO: " ,self.INFO_Count)
-        print("WARN: " ,self.WARN_Count)
-        print("ERROR: " ,self.ERROR_Count)
 
         # Function, Classes & Scope
         print("DEF_Count: " ,self.DEF_Count)
