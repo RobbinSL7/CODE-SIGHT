@@ -40,7 +40,7 @@ class SCAnalyzer:
         self.RAISE_Count = 0
         self.ASSERT_Count = 0
 
-    def analyze_logs(self):
+    def token_analyzer(self):
         with open(self.fileName, "r") as file:
 
             for line in file:
@@ -148,7 +148,7 @@ def main():
             print("Successfully opened file:")
 
             analyzer = SCAnalyzer(fileName)
-            analyzer.analyze_logs()
+            analyzer.token_analyzer()
             analyzer.print_summary()
             break
           
