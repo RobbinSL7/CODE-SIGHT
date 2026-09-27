@@ -5,6 +5,7 @@ class SCAnalyzer:
     def __init__(self, fileName):
         # Baseline
         self.LINE_Count = 0
+        self.LONG_Lines = 0
         self.reviewLines = []
         self.fileName = fileName
 
@@ -44,6 +45,10 @@ class SCAnalyzer:
         with open(self.fileName, "r") as file:
 
             for line in file:
+                if len(line.rstrip("/r/n")) > 90:
+                    self.LONG_Lines += 1
+
+            
                 clean = line.strip()
                 tokens = clean.split()
                 self.LINE_Count += 1
@@ -104,6 +109,7 @@ class SCAnalyzer:
       
         # Baseline
         print("Total Lines: ",self.LINE_Count)
+        print("Long Lines (>79 Characters): ",self.LONG_Lines)
 
         # Function, Classes & Scope
         print("DEF_Count: " ,self.DEF_Count)
