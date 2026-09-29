@@ -45,16 +45,25 @@ class SCAnalyzer:
         with open(self.fileName, "r") as file:
 
             for line in file:
-                if len(line.rstrip("/r/n")) > 90:
+                if len(line.rstrip("\r\n")) > 90:
                     self.LONG_Lines += 1
 
             
                 clean = line.strip()
                 tokens = clean.split()
-                self.LINE_Count += 1
+                
 
                 if not tokens:
                     continue
+
+                if "#" in line:
+                    parts = line.split("#")
+                    cumulative = ""
+                    for i in range(len(parts) - 1):
+                        cumulative += parts[i]
+                        if cumulative.count('"') % 2 == 0 and cumulative.count("'") % 2 == 0:
+                            self.COMMENT_Count += 1
+                            break
 
                 self.LINE_Count += 1
                 if tokens[0] == "def":
