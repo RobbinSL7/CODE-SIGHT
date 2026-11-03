@@ -65,6 +65,24 @@ class SCAnalyzer:
                             self.COMMENT_Count += 1
                             break
 
+
+
+                        in_quotes = False
+                        quote_char = None
+                        
+                        for char in line:
+                          if char in ('"', "'"):
+                             if not in_quotes:
+                                in_quotes = True
+                                quote_char = char
+                             elif char == quote_char:
+                                in_quotes = False
+                                quote_char = None
+                        
+                          elif char == "#" and not in_quotes:
+                            self.COMMENT_Count += 1
+                            break
+
                 self.LINE_Count += 1
                 if tokens[0] == "def":
                     self.DEF_Count += 1
