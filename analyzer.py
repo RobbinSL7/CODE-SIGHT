@@ -56,32 +56,28 @@ class SCAnalyzer:
                 if not tokens:
                     continue
 
-                if "#" in line:
-                    parts = line.split("#")
-                    cumulative = ""
-                    for i in range(len(parts) - 1):
-                        cumulative += parts[i]
-                        if cumulative.count('"') % 2 == 0 and cumulative.count("'") % 2 == 0:
-                            self.COMMENT_Count += 1
-                            break
+            
 
 
 
+            
+            in_quotes = False
+            quote_char = None
+                        
+            for char in line:
+                if char in ('"', "'"):
+                    if not in_quotes:
+                        in_quotes = True
+                        quote_char = char
+                    elif char == quote_char:
                         in_quotes = False
                         quote_char = None
                         
-                        for char in line:
-                          if char in ('"', "'"):
-                             if not in_quotes:
-                                in_quotes = True
-                                quote_char = char
-                             elif char == quote_char:
-                                in_quotes = False
-                                quote_char = None
-                        
-                          elif char == "#" and not in_quotes:
-                            self.COMMENT_Count += 1
-                            break
+                elif char == "#" and not in_quotes:
+                    self.COMMENT_Count += 1
+                    break
+
+
 
                 self.LINE_Count += 1
                 if tokens[0] == "def":
